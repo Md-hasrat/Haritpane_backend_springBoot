@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: haritpane-backend
+
+  profiles:
+    active: local
