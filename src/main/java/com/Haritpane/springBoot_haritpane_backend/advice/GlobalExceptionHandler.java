@@ -1,6 +1,7 @@
 package com.Haritpane.springBoot_haritpane_backend.advice;
 
 import com.Haritpane.springBoot_haritpane_backend.exception.BadRequestException;
+import com.Haritpane.springBoot_haritpane_backend.exception.FileUploadException;
 import com.Haritpane.springBoot_haritpane_backend.exception.ResourceNotFoundException;
 import com.Haritpane.springBoot_haritpane_backend.util.ApiResponse;
 import com.Haritpane.springBoot_haritpane_backend.util.ResponseHandler;
@@ -28,6 +29,17 @@ public class GlobalExceptionHandler {
         return ResponseHandler.generateResponse(
                 ex.getMessage(),
                 HttpStatus.BAD_REQUEST,
+                null
+        );
+    }
+
+    @ExceptionHandler(FileUploadException.class)
+    public ResponseEntity<ApiResponse<Object>> handleFileUploadException(
+            FileUploadException ex){
+
+        return ResponseHandler.generateResponse(
+                ex.getMessage(),
+                HttpStatus.INTERNAL_SERVER_ERROR,
                 null
         );
     }

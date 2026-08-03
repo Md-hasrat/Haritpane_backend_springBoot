@@ -17,3 +17,11 @@ spring:
 
 server:
   port: 8888
+
+
+
+aws:
+  region: ${AWS_S3_REGION}
+  bucket-name: ${AWS_S3_BUCKET_NAME}
+  access-key: ${AWS_ACCESS_KEY_ID}
+  secret-key: ${AWS_SECRET_ACCESS_KEY}
