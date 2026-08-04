@@ -18,6 +18,10 @@ spring:
 server:
   port: 8888
 
+jwt:
+  secret: 0uP4fQz7vM4vQv8HnQ5hN6t5W2x9b8M3R2Q1S5T7Y9K8L6N4P3Q2R1T8U7V6W5X4
+  expiration: 3600000
+
 
 
 aws:

@@ -1,39 +1,37 @@
-package com.Haritpane.springBoot_haritpane_backend.entity.providerEntity;
+package com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto;
 
-
-import com.Haritpane.springBoot_haritpane_backend.entity.Availability;
 import com.Haritpane.springBoot_haritpane_backend.enums.LanguagePreference;
 import com.Haritpane.springBoot_haritpane_backend.enums.ServiceProviderType;
-import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Entity
-public class ServiceProviderEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ServiceProviderRequestDto {
+
     private String name;
     private String phone;
     private String email;
     private String address;
     private String profilePic;
+
     private Boolean pushNotification;
     private Boolean whatsAppNotification;
 
-    @Enumerated(EnumType.STRING)
     private ServiceProviderType serviceProviderType;
+
     private String whatsAppNumber;
 
-    @Embedded
-    private BusinessInfo businessInfo;
+    private BusinessInfoDto businessInfo;
+
     private Boolean haveGst;
     private String gstNumber;
     private String panCard;
-    @Enumerated(EnumType.STRING)
+
     private LanguagePreference languagePreference;
 
-    @Embedded
-    private Availability availability;
-
-
+    private AvailabilityDto availability;
 }
