@@ -1,5 +1,6 @@
 package com.Haritpane.springBoot_haritpane_backend.services;
 
+import com.Haritpane.springBoot_haritpane_backend.exception.EmailSendingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +35,7 @@ public class SendEmailService {
         } catch (Exception e) {
 
             log.error("Failed to send email", e);
-            throw new RuntimeException("Failed to send email");
+            throw new EmailSendingException("Unable to send email. Please try again later.", e);
         }
     }
 }
