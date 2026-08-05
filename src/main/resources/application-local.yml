@@ -5,6 +5,22 @@ spring:
     password: postgres
     driver-class-name: org.postgresql.Driver
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: mdhasrat233222@gmail.com
+    password: dvjt hlka wyqk aqrd
+
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
   jpa:
     hibernate:
       ddl-auto: update
