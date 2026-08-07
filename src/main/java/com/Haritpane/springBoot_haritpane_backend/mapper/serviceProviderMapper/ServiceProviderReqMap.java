@@ -1,8 +1,10 @@
 package com.Haritpane.springBoot_haritpane_backend.mapper.serviceProviderMapper;
 
-import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.ServiceProviderRequestDto;
+import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.requestDto.ServiceProviderUpdateProfileRequestDto;
+import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.responseDto.ServiceProviderProfileResponseDto;
 import com.Haritpane.springBoot_haritpane_backend.entity.providerEntity.ServiceProviderEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 
 @Mapper(
@@ -14,7 +16,9 @@ import org.mapstruct.Mapper;
         }
 )
 public interface ServiceProviderReqMap {
-    ServiceProviderEntity toEntity(ServiceProviderRequestDto dto);
 
-    ServiceProviderRequestDto toDto(ServiceProviderEntity entity);
+    ServiceProviderEntity toEntity(ServiceProviderUpdateProfileRequestDto dto);
+
+    @Mapping(source = "id", target = "providerId")
+    ServiceProviderProfileResponseDto toDto(ServiceProviderEntity entity);
 }
