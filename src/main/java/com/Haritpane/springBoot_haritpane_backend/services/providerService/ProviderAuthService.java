@@ -11,4 +11,10 @@ public interface ProviderAuthService {
             Long providerId,
             ServiceProviderUpdateProfileRequestDto request
     );
+
+    ServiceProviderProfileResponseDto getProfileService(Long providerId);
+
+    void logout(Long providerId);
+
+
 }

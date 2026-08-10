@@ -20,5 +20,7 @@ public interface ServiceProviderReqMap {
     ServiceProviderEntity toEntity(ServiceProviderUpdateProfileRequestDto dto);
 
     @Mapping(source = "id", target = "providerId")
+    @Mapping(source = "createAt", target = "createAt")
+    @Mapping(source = "updatedAt", target = "updatedAt")
     ServiceProviderProfileResponseDto toDto(ServiceProviderEntity entity);
 }

@@ -1,13 +1,10 @@
 package com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.requestDto;
 
-import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.AvailabilityDto;
-import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.BusinessInfoDto;
 import com.Haritpane.springBoot_haritpane_backend.enums.LanguagePreference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 
 @Data
 @Builder
@@ -25,7 +22,7 @@ public class ServiceProviderUpdateProfileRequestDto {
 
     private String whatsAppNumber;
 
-    private BusinessInfoDto businessInfo;
+    private BusinessInfoRequestDto businessInfo;
 
     private Boolean haveGst;
     private String gstNumber;
@@ -33,5 +30,5 @@ public class ServiceProviderUpdateProfileRequestDto {
 
     private LanguagePreference languagePreference;
 
-    private AvailabilityDto availability;
+    private AvailabilityRequestDto availability;
 }

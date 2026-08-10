@@ -51,6 +51,10 @@ public class ServiceProviderAuths {
     ){
         Long providerId = Long.parseLong(authentication.getName());
 
+        System.out.println("Controller reached");
+        System.out.println(authentication);
+        System.out.println(authentication.getName());
+
         ServiceProviderProfileResponseDto response =
                 providerAuthService.updateProfile(providerId, request);
 
@@ -58,6 +62,34 @@ public class ServiceProviderAuths {
                 "Profile Updated Successfully.",
                 HttpStatus.OK,
                 response
+        );
+    }
+
+    @GetMapping("/getProfile")
+    public ResponseEntity<ApiResponse<ServiceProviderProfileResponseDto>> getProfile(
+            Authentication authentication
+    ){
+        Long providerId = Long.parseLong(authentication.getName());
+
+        ServiceProviderProfileResponseDto newProfile = providerAuthService.getProfileService(providerId);
+
+        return ResponseHandler.generateResponse(
+                "Profile fetch successfully",
+                HttpStatus.OK,
+                newProfile
+        );
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<ApiResponse<Void>> logout(
+            Authentication authentication
+    ){
+        Long providerId = Long.parseLong(authentication.getName());
+        providerAuthService.logout(providerId);
+        return  ResponseHandler.generateResponse(
+                "Logout Successfully",
+                HttpStatus.OK,
+                null
         );
     }
 }

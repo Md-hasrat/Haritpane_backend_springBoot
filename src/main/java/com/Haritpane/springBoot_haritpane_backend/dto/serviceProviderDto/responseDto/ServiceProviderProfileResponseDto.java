@@ -10,6 +10,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 
 @Data
 @Builder
@@ -39,6 +41,8 @@ public class ServiceProviderProfileResponseDto {
     private String panCard;
     private Boolean isNewUser;
     private String token;
+    private LocalDateTime createAt;
+    private LocalDateTime updatedAt;
 
     private LanguagePreference languagePreference;
 

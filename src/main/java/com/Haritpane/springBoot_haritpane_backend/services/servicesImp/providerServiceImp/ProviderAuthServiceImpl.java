@@ -1,5 +1,6 @@
 package com.Haritpane.springBoot_haritpane_backend.services.servicesImp.providerServiceImp;
 
+
 import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.requestDto.ServiceProviderLoginRequestDto;
 import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.requestDto.ServiceProviderUpdateProfileRequestDto;
 import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.responseDto.ServiceProviderLoginResponseDto;
@@ -16,6 +17,7 @@ import com.Haritpane.springBoot_haritpane_backend.services.providerService.Provi
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 
@@ -53,13 +55,23 @@ public class ProviderAuthServiceImpl implements ProviderAuthService {
             provider.setServiceProviderType(request.getServiceProviderType());
             provider.setProviderStatus(ProviderStatus.ACTIVE);
 
+            // Set creation timestamp
+            provider.setCreateAt(LocalDateTime.now());
+
             provider = providerRepository.save(provider);
             isNewUser = true;
         }
 
+        // Always update the updatedAt timestamp
+        provider.setUpdatedAt(LocalDateTime.now());
+
         String token = jwtService.generateToken(
                 provider.getId(),
                 provider.getServiceProviderType().name());
+        // Save token
+        provider.setToken(token);
+
+        providerRepository.save(provider);
 
         return ServiceProviderLoginResponseDto.builder()
                 .providerId(provider.getId())
@@ -107,8 +119,42 @@ public class ProviderAuthServiceImpl implements ProviderAuthService {
             );
         }
 
+        System.out.println("Entity before updatedAt = " + provider.getUpdatedAt());
+
+        // Update timestamp
+        provider.setUpdatedAt(LocalDateTime.now());
+
+        System.out.println("Entity  AFTER updatedAt = " + provider.getUpdatedAt());
+
         provider = providerRepository.save(provider);
+        System.out.println("This is updated user"+ provider);
+
+        ServiceProviderProfileResponseDto dto = serviceProviderReqMap.toDto(provider);
+
+        System.out.println("DTO = " + dto);
 
         return serviceProviderReqMap.toDto(provider);
+    }
+
+    @Override
+    public ServiceProviderProfileResponseDto getProfileService(Long providerId) {
+
+        ServiceProviderEntity provider = providerRepository.findById(providerId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Service Provider not found"));
+        ServiceProviderProfileResponseDto newProvider = serviceProviderReqMap.toDto(provider);
+        return newProvider;
+    }
+
+    @Override
+    public void logout(Long providerId) {
+
+        ServiceProviderEntity newProvider = providerRepository.findById(providerId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Provider not found"));
+
+        newProvider.setUpdatedAt(LocalDateTime.now());
+        newProvider.setToken(null);
+        providerRepository.save(newProvider);
     }
 }

@@ -32,27 +32,27 @@ public class JwtFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
         System.out.println("Authorization Header: " + authHeader);
         final String jwt;
-        final String email;
+        final String providerId;
 
         // Header missing or invalid
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        if (authHeader == null) {
             filterChain.doFilter(request, response);
             return;
         }
 
         // Remove "Bearer " from the header
-        jwt = authHeader.substring(7);
+        jwt = authHeader;
 
         // Extract email from JWT
-        email = jwtService.extractUsername(jwt);
-        System.out.println("email from jwt: " + email);
+        providerId = jwtService.extractUsername(jwt);
+        System.out.println("providerId from jwt: " + providerId);
 
         // Authenticate only if not already authenticated
         UserDetails userDetails = null;
-        if (email != null &&
+        if (providerId != null &&
                 SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            userDetails = customUserDetailsService.loadUserByUsername(email);
+            userDetails = customUserDetailsService.loadUserByUsername(providerId);
 
             if (jwtService.isTokenValid(jwt, userDetails)) {
 

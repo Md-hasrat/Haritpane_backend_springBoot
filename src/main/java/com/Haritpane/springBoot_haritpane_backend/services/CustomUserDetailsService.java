@@ -16,17 +16,18 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final ServiceProviderRepository serviceProviderRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String phone)
+    public UserDetails loadUserByUsername(String providerId)
             throws UsernameNotFoundException {
 
         ServiceProviderEntity serviceProvider = serviceProviderRepository
-                .findByPhone(phone)
+                .findById(Long.parseLong(providerId))
                 .orElseThrow(() ->
                         new UsernameNotFoundException("Service Provider not found"));
 
         return User.builder()
-                .username(serviceProvider.getPhone())
-                .password(serviceProvider.getPassword())
+                .username(serviceProvider.getId().toString()) // <-- ID
+                .password(serviceProvider.getPassword() == null ? "" : serviceProvider.getPassword())
+                .authorities("ROLE_PROVIDER")
                 .build();
     }
 }
