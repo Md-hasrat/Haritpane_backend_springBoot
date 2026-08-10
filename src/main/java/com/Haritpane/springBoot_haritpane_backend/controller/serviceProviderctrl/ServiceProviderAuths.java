@@ -4,8 +4,10 @@ import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.request
 import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.requestDto.ServiceProviderUpdateProfileRequestDto;
 import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.responseDto.ServiceProviderLoginResponseDto;
 import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.responseDto.ServiceProviderProfileResponseDto;
+import com.Haritpane.springBoot_haritpane_backend.services.SendEmailService;
 import com.Haritpane.springBoot_haritpane_backend.services.providerService.ProviderAuthService;
 import com.Haritpane.springBoot_haritpane_backend.util.ApiResponse;
+import com.Haritpane.springBoot_haritpane_backend.util.OtpUtil;
 import com.Haritpane.springBoot_haritpane_backend.util.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,9 @@ public class ServiceProviderAuths {
     @Autowired
     private  ProviderAuthService providerAuthService;
 
+    @Autowired
+    private  SendEmailService sendEmailService;
+
     @RestController
     @RequestMapping("/provider/auth")
     public class ServiceProviderAuthController {
@@ -30,7 +35,7 @@ public class ServiceProviderAuths {
         private ProviderAuthService providerAuthService;
 
         @PostMapping("/login")
-        public ResponseEntity<ApiResponse<ServiceProviderLoginResponseDto>> loginProviders(
+            public ResponseEntity<ApiResponse<ServiceProviderLoginResponseDto>> loginProviders(
                 @RequestBody @Validated ServiceProviderLoginRequestDto request) {
 
             ServiceProviderLoginResponseDto response =
@@ -90,6 +95,19 @@ public class ServiceProviderAuths {
                 "Logout Successfully",
                 HttpStatus.OK,
                 null
+        );
+    }
+
+    @PostMapping("/sendOtp")
+    public ResponseEntity<ApiResponse<String>> sendOtp(
+            @RequestBody ServiceProviderLoginRequestDto serviceProviderLoginRequestDto
+    ){
+        String otp = OtpUtil.generateOtp();
+
+        return ResponseHandler.generateResponse(
+                "OTP generated successfully",
+                HttpStatus.OK,
+                otp
         );
     }
 }

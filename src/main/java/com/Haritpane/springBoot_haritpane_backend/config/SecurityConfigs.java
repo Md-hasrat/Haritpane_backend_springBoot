@@ -35,7 +35,8 @@ public class SecurityConfigs {
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/provider/auth/login"
+                                "/provider/auth/login",
+                                "/provider/auth/sendOtp"
                         )
                         .permitAll()
                         .anyRequest()
