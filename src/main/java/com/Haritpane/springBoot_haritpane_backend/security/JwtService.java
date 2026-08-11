@@ -26,10 +26,20 @@ public class JwtService {
     // Generate JWT Token
     // ===========================
 
+
+    // For Service Provider jwt
     public String generateToken(Long userId, String role) {
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", role);
+
+        return createToken(claims, String.valueOf(userId));
+    }
+
+    // For farmer jwt
+    public String generateToken(Long userId) {
+
+        Map<String, Object> claims = new HashMap<>();
 
         return createToken(claims, String.valueOf(userId));
     }

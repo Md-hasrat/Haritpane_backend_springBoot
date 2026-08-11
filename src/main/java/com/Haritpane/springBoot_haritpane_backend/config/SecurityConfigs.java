@@ -36,7 +36,9 @@ public class SecurityConfigs {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/provider/auth/login",
-                                "/provider/auth/sendOtp"
+                                "/provider/auth/sendOtp",
+                                "/farmer/auth/sendOtp",
+                                "/farmer/auth/login"
                         )
                         .permitAll()
                         .anyRequest()

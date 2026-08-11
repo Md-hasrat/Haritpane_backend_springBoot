@@ -4,7 +4,12 @@ package com.Haritpane.springBoot_haritpane_backend.entity.farmerEntity;
 import com.Haritpane.springBoot_haritpane_backend.enums.FarmerStatus;
 import com.Haritpane.springBoot_haritpane_backend.enums.LanguagePreference;
 import jakarta.persistence.*;
+import lombok.Data;
 
+import java.time.LocalDateTime;
+
+
+@Data
 @Entity
 public class FarmerEntity {
 
@@ -26,13 +31,14 @@ public class FarmerEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "farmerStatus")
-    private FarmerStatus farmerStatus;
+    private FarmerStatus farmerStatus = FarmerStatus.ACTIVE;
 
     private String jwt;
     private Boolean pushNotification;
     private Boolean chatNotification;
-
-
+    private Boolean isNewUser;
+    private LocalDateTime createAt;
+    private LocalDateTime updatedAt;
 
 
 }

@@ -2,10 +2,16 @@ package com.Haritpane.springBoot_haritpane_backend.dto.farmerDto.responseDto;
 
 import com.Haritpane.springBoot_haritpane_backend.enums.FarmerStatus;
 import com.Haritpane.springBoot_haritpane_backend.enums.LanguagePreference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
+
+@Data
+@Builder
 public class FarmerProfileResponseDto {
 
-    private Long id;
+    private Long farmerId;
     private String fullName;
     private String phone;
     private String name;
