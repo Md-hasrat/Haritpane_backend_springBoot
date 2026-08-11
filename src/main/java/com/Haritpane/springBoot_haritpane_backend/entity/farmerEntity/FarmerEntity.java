@@ -1,0 +1,38 @@
+package com.Haritpane.springBoot_haritpane_backend.entity.farmerEntity;
+
+
+import com.Haritpane.springBoot_haritpane_backend.enums.FarmerStatus;
+import com.Haritpane.springBoot_haritpane_backend.enums.LanguagePreference;
+import jakarta.persistence.*;
+
+@Entity
+public class FarmerEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String fullName;
+    private String phone;
+    private String name;
+    private String email;
+
+    private String fullAddress;
+    @Column(columnDefinition = "double precision[]")
+    private Double[] location;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "farmerSelectedlanguage")
+    private LanguagePreference languagePreference;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "farmerStatus")
+    private FarmerStatus farmerStatus;
+
+    private String jwt;
+    private Boolean pushNotification;
+    private Boolean chatNotification;
+
+
+
+
+}
