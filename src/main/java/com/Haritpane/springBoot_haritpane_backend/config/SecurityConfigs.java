@@ -2,6 +2,7 @@ package com.Haritpane.springBoot_haritpane_backend.config;
 
 import com.Haritpane.springBoot_haritpane_backend.security.JwtFilter;
 import com.Haritpane.springBoot_haritpane_backend.services.CustomUserDetailsService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,6 +44,21 @@ public class SecurityConfigs {
                         .permitAll()
                         .anyRequest()
                         .authenticated()
+                )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) -> {
+
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType("application/json");
+
+                            response.getWriter().write("""
+                {
+                    "success": false,
+                    "message": "Token is required",
+                    "status": 401
+                }
+                """);
+                        })
                 )
 
                 .authenticationProvider(authenticationProvider())

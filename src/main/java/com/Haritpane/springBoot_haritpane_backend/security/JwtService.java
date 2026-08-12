@@ -1,6 +1,5 @@
 package com.Haritpane.springBoot_haritpane_backend.security;
 
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -14,72 +13,151 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-
 @Service
 public class JwtService {
 
-    // Generate a Base64-encoded 256-bit secret and put it here
     private static final String SECRET_KEY =
             "mySuperSecretKeyForJwtAuthentication123456789";
 
-    // ===========================
-    // Generate JWT Token
-    // ===========================
 
+    // =========================================================
+    // FARMER TOKEN
+    // =========================================================
 
-    // For Service Provider jwt
-    public String generateToken(Long userId, String role) {
+    public String generateToken(Long farmerId) {
 
         Map<String, Object> claims = new HashMap<>();
+
+        claims.put("userType", "FARMER");
+        claims.put("role", "ROLE_FARMER");
+
+        return createToken(
+                claims,
+                String.valueOf(farmerId)
+        );
+    }
+
+
+    // =========================================================
+    // PROVIDER TOKEN
+    // =========================================================
+
+    public String generateToken(Long providerId, String role) {
+
+        Map<String, Object> claims = new HashMap<>();
+
+        claims.put("userType", "PROVIDER");
         claims.put("role", role);
 
-        return createToken(claims, String.valueOf(userId));
+        return createToken(
+                claims,
+                String.valueOf(providerId)
+        );
     }
 
-    // For farmer jwt
-    public String generateToken(Long userId) {
 
-        Map<String, Object> claims = new HashMap<>();
+    // =========================================================
+    // CREATE TOKEN
+    // =========================================================
 
-        return createToken(claims, String.valueOf(userId));
-    }
-
-    // ===========================
-    // Create JWT
-    // ===========================
-    private String createToken(Map<String, Object> claims, String subject) {
+    private String createToken(
+            Map<String, Object> claims,
+            String subject) {
 
         return Jwts.builder()
                 .claims(claims)
                 .subject(subject)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hour
-                .signWith(getSigningKey(), Jwts.SIG.HS256)
+                .issuedAt(new Date())
+                .expiration(
+                        new Date(
+                                System.currentTimeMillis()
+                                        + 1000 * 60 * 60
+                        )
+                )
+                .signWith(
+                        getSigningKey(),
+                        Jwts.SIG.HS256
+                )
                 .compact();
     }
 
 
-    // Extract Username
+    // =========================================================
+    // EXTRACT USER ID
+    // =========================================================
+
     public String extractUsername(String token) {
 
-        return extractClaim(token, Claims::getSubject);
+        return extractClaim(
+                token,
+                Claims::getSubject
+        );
     }
 
-    // Extract Expiration
+
+    // =========================================================
+    // EXTRACT USER TYPE
+    // =========================================================
+
+    public String extractUserType(String token) {
+
+        return extractClaim(
+                token,
+                claims -> claims.get(
+                        "userType",
+                        String.class
+                )
+        );
+    }
+
+
+    // =========================================================
+    // EXTRACT ROLE
+    // =========================================================
+
+    public String extractRole(String token) {
+
+        return extractClaim(
+                token,
+                claims -> claims.get(
+                        "role",
+                        String.class
+                )
+        );
+    }
+
+
+    // =========================================================
+    // EXTRACT EXPIRATION
+    // =========================================================
+
     public Date extractExpiration(String token) {
 
-        return extractClaim(token, Claims::getExpiration);
+        return extractClaim(
+                token,
+                Claims::getExpiration
+        );
     }
 
-    // Extract Any Claim
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
 
-        final Claims claims = extractAllClaims(token);
+    // =========================================================
+    // EXTRACT ANY CLAIM
+    // =========================================================
+
+    public <T> T extractClaim(
+            String token,
+            Function<Claims, T> claimsResolver) {
+
+        Claims claims = extractAllClaims(token);
 
         return claimsResolver.apply(claims);
     }
 
-    // Extract All Claims
+
+    // =========================================================
+    // EXTRACT ALL CLAIMS
+    // =========================================================
+
     private Claims extractAllClaims(String token) {
 
         return Jwts.parser()
@@ -89,27 +167,46 @@ public class JwtService {
                 .getPayload();
     }
 
-    // Check Expiration
+
+    // =========================================================
+    // CHECK EXPIRATION
+    // =========================================================
+
     private boolean isTokenExpired(String token) {
 
-        return extractExpiration(token).before(new Date());
+        return extractExpiration(token)
+                .before(new Date());
     }
 
-    // Validate Token
-    public boolean isTokenValid(String token, UserDetails userDetails) {
 
-        final String username = extractUsername(token);
+    // =========================================================
+    // VALIDATE TOKEN
+    // =========================================================
 
-        return username.equals(userDetails.getUsername())
+    public boolean isTokenValid(
+            String token,
+            UserDetails userDetails) {
+
+        final String username =
+                extractUsername(token);
+
+        return username.equals(
+                userDetails.getUsername()
+        )
                 && !isTokenExpired(token);
     }
 
-    // Secret Key
+
+    // =========================================================
+    // SECRET KEY
+    // =========================================================
+
     private SecretKey getSigningKey() {
 
         return Keys.hmacShaKeyFor(
-                SECRET_KEY.getBytes(StandardCharsets.UTF_8)
+                SECRET_KEY.getBytes(
+                        StandardCharsets.UTF_8
+                )
         );
     }
 }
-

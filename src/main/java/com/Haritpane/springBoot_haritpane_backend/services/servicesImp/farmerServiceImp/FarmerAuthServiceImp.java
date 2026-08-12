@@ -1,8 +1,12 @@
 package com.Haritpane.springBoot_haritpane_backend.services.servicesImp.farmerServiceImp;
 
+import com.Haritpane.springBoot_haritpane_backend.dto.farmerDto.requestDto.FarmerUpdateProfileDto;
+import com.Haritpane.springBoot_haritpane_backend.dto.farmerDto.responseDto.FarmerProfileResponseDto;
 import com.Haritpane.springBoot_haritpane_backend.dto.farmerDto.responseDto.LoginDto;
 import com.Haritpane.springBoot_haritpane_backend.entity.farmerEntity.FarmerEntity;
 import com.Haritpane.springBoot_haritpane_backend.enums.FarmerStatus;
+import com.Haritpane.springBoot_haritpane_backend.exception.ResourceNotFoundException;
+import com.Haritpane.springBoot_haritpane_backend.mapper.farmerMapper.FarmerMapper;
 import com.Haritpane.springBoot_haritpane_backend.repository.FarmerRepository;
 import com.Haritpane.springBoot_haritpane_backend.security.JwtService;
 import com.Haritpane.springBoot_haritpane_backend.services.farmerService.FarmerAuthService;
@@ -20,11 +24,14 @@ public class FarmerAuthServiceImp implements FarmerAuthService {
 
     private final FarmerRepository farmerRepository;
     private final JwtService jwtService;
+    private final FarmerMapper farmerMapper;
 
 
     @Override
     public LoginDto login(String phone) {
         Optional<FarmerEntity>  optionalFarmer = farmerRepository.findByPhone(phone);
+
+        System.out.println("Phone received in service: [" + phone + "]");
 
         FarmerEntity farmerEntity;
         boolean isNewUser;
@@ -59,5 +66,26 @@ public class FarmerAuthServiceImp implements FarmerAuthService {
                 .createAt(farmerEntity.getCreateAt())
                 .updatedAt(farmerEntity.getUpdatedAt())
                 .build();
+    }
+
+    @Override
+    public FarmerProfileResponseDto updateProfile(Long farmerId, FarmerUpdateProfileDto farmerUpdateProfileDto) {
+        FarmerEntity farmer = farmerRepository.findById(farmerId)
+                .orElseThrow(()->
+                        new ResourceNotFoundException("Farmer not found"));
+
+        farmerMapper.updateEntity(farmerUpdateProfileDto, farmer);
+        FarmerEntity updatedFarmer = farmerRepository.save(farmer);
+
+        return farmerMapper.toDto(updatedFarmer);
+    }
+
+    @Override
+    public FarmerProfileResponseDto getProfile(Long farmerId) {
+
+        FarmerEntity response = farmerRepository.findById(farmerId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Farmer not found"));
+        return farmerMapper.toDto(response);
     }
 }

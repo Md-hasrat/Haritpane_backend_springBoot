@@ -5,6 +5,7 @@ import com.Haritpane.springBoot_haritpane_backend.enums.FarmerStatus;
 import com.Haritpane.springBoot_haritpane_backend.enums.LanguagePreference;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.jspecify.annotations.Nullable;
 
 import java.time.LocalDateTime;
 
@@ -20,6 +21,7 @@ public class FarmerEntity {
     private String phone;
     private String name;
     private String email;
+    private String password;
 
     private String fullAddress;
     @Column(columnDefinition = "double precision[]")
@@ -39,6 +41,8 @@ public class FarmerEntity {
     private Boolean isNewUser;
     private LocalDateTime createAt;
     private LocalDateTime updatedAt;
+
+
 
 
 }
