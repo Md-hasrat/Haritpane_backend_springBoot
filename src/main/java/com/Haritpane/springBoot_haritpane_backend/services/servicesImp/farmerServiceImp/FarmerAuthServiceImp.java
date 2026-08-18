@@ -88,4 +88,14 @@ public class FarmerAuthServiceImp implements FarmerAuthService {
                         new ResourceNotFoundException("Farmer not found"));
         return farmerMapper.toDto(response);
     }
+
+    @Override
+    public void logout(Long farmerId) {
+        FarmerEntity newFarmer = farmerRepository.findById(farmerId)
+                .orElseThrow(()->
+                        new ResourceNotFoundException("Farmer not found"));
+        newFarmer.setUpdatedAt(LocalDateTime.now());
+        newFarmer.setJwt(null);
+        farmerRepository.save(newFarmer);
+    }
 }

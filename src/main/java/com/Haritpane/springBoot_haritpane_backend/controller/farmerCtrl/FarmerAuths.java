@@ -82,5 +82,19 @@ public class FarmerAuths {
         );
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<ApiResponse<String>> logoutFarmer(
+            Authentication authentication
+    ){
+
+        Long farmerId = Long.parseLong(authentication.getName());
+
+        farmerAuthService.logout(farmerId);
+         return ResponseHandler.generateResponse(
+                 "Farmer logout successfully",
+                 HttpStatus.OK,
+                 null
+         );
+    }
 
 }

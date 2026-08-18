@@ -13,5 +13,6 @@ public interface FarmerAuthService {
     );
 
     FarmerProfileResponseDto getProfile(Long farmerId);
+    void logout(Long farmerId);
 
 }
