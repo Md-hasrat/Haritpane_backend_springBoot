@@ -17,5 +17,14 @@ public interface LandManagementMapper {
     @Mapping(target = "categoryId", ignore = true)
     LandManagementService toEntity(LandManagementRequestDto dto);
 
+
+    @Mapping(
+            target = "serviceProviderId",
+            source = "serviceProviderId.id"
+    )
+    @Mapping(
+            target = "categoryId",
+            source = "categoryId.id"
+    )
     LandManagementResponseDto toResponseDto(LandManagementService entity);
 }
