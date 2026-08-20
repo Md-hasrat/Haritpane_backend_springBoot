@@ -6,11 +6,16 @@ import com.Haritpane.springBoot_haritpane_backend.entity.providerEntity.ServiceP
 import com.Haritpane.springBoot_haritpane_backend.enums.*;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "land_management_service")
 public class LandManagementService {
 
@@ -46,4 +51,12 @@ public class LandManagementService {
     @OneToOne(cascade =  CascadeType.ALL)
     @JoinColumn(name = "availability_id")
     private ServiceAvailability serviceAvailability;
+
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
 }

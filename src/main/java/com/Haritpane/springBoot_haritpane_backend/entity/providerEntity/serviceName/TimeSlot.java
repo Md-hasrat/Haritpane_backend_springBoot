@@ -14,7 +14,7 @@ public class TimeSlot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalTime openTime;
+    private String startTime;
 
-    private LocalTime closeTime;
+    private String endTime;
 }

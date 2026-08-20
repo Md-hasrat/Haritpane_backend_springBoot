@@ -27,4 +27,6 @@ public interface LandManagementMapper {
             source = "categoryId.id"
     )
     LandManagementResponseDto toResponseDto(LandManagementService entity);
+
+
 }

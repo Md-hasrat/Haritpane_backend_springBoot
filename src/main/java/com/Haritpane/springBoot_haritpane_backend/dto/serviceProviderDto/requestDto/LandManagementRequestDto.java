@@ -6,8 +6,6 @@ import lombok.Data;
 @Data
 public class LandManagementRequestDto {
 
-    private Long serviceProviderId;
-
     private Long categoryId;
 
     private LandManagementSubcategory selectedSubCategory;

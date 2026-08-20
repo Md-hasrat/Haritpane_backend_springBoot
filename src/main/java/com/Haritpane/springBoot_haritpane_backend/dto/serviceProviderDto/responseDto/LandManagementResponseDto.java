@@ -4,6 +4,8 @@ import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.request
 import com.Haritpane.springBoot_haritpane_backend.enums.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class LandManagementResponseDto {
 
@@ -38,4 +40,6 @@ public class LandManagementResponseDto {
     private String uploadImage;
 
     private ServiceAvailabilityDto serviceAvailability;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
