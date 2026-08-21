@@ -30,7 +30,7 @@ public class HarvesterResponseDto {
 
     private String cropType;
 
-    private String chargesPerAcr;
+    private String chargesPerAcre;
 
     private String harvesterImg;
 

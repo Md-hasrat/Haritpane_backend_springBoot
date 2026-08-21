@@ -4,19 +4,22 @@ import com.Haritpane.springBoot_haritpane_backend.entity.providerEntity.ServiceC
 import com.Haritpane.springBoot_haritpane_backend.entity.providerEntity.ServiceProviderEntity;
 import com.Haritpane.springBoot_haritpane_backend.enums.HarvesterSubCategory;
 import jakarta.persistence.*;
+import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+@Data
 @Entity
+@Table(name = "harvester_service")
 @EntityListeners(AuditingEntityListener.class)
 public class HarvesterService {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "service_provider_id", nullable = false)

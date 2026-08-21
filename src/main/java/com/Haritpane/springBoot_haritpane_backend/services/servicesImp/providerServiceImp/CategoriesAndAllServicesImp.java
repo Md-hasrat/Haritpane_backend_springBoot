@@ -1,12 +1,17 @@
 package com.Haritpane.springBoot_haritpane_backend.services.servicesImp.providerServiceImp;
 
+import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.requestDto.HarvesterRequestDto;
 import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.requestDto.LandManagementRequestDto;
+import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.responseDto.HarvesterResponseDto;
 import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.responseDto.LandManagementResponseDto;
 import com.Haritpane.springBoot_haritpane_backend.entity.providerEntity.ServiceCategoryEntity;
 import com.Haritpane.springBoot_haritpane_backend.entity.providerEntity.ServiceProviderEntity;
+import com.Haritpane.springBoot_haritpane_backend.entity.providerEntity.serviceName.HarvesterService;
 import com.Haritpane.springBoot_haritpane_backend.entity.providerEntity.serviceName.LandManagementService;
 import com.Haritpane.springBoot_haritpane_backend.exception.ResourceNotFoundException;
+import com.Haritpane.springBoot_haritpane_backend.mapper.serviceProviderMapper.HarvesterMapper;
 import com.Haritpane.springBoot_haritpane_backend.mapper.serviceProviderMapper.LandManagementMapper;
+import com.Haritpane.springBoot_haritpane_backend.repository.HarvesterRepository;
 import com.Haritpane.springBoot_haritpane_backend.repository.LandManagementRepository;
 import com.Haritpane.springBoot_haritpane_backend.repository.ServiceCategoryRepository;
 import com.Haritpane.springBoot_haritpane_backend.repository.ServiceProviderRepository;
@@ -29,7 +34,11 @@ public class CategoriesAndAllServicesImp implements CateogoriesAndAllServices {
     @Autowired
     private LandManagementRepository landManagementRepository;
     @Autowired
+    private HarvesterRepository harvesterRepository;
+    @Autowired
     private LandManagementMapper landManagementMapper;
+    @Autowired
+    private HarvesterMapper harvesterMapper;
 
 
 
@@ -64,5 +73,38 @@ public class CategoriesAndAllServicesImp implements CateogoriesAndAllServices {
         newEntity.setCategoryId(category);
         LandManagementService savedEntity = landManagementRepository.save(newEntity);
         return landManagementMapper.toResponseDto(savedEntity);
+    }
+
+    @Override
+    public HarvesterResponseDto addHarvesterService(
+            HarvesterRequestDto harvesterRequestDto,
+            Authentication authentication
+    ) {
+        String providerId = authentication.getName();
+        ServiceProviderEntity provider = serviceProviderRepository.findById(Long.valueOf(providerId))
+                .orElseThrow(()->
+                        new ResourceNotFoundException("Service provider not found"));
+
+        if (harvesterRequestDto.getCategoryId() == null){
+            throw new RuntimeException("Category ID is required");
+        }
+
+        ServiceCategoryEntity category = serviceCategoryRepository.findById(harvesterRequestDto.getCategoryId())
+                .orElseThrow(()->
+                        new ResourceNotFoundException("Category not found"));
+
+        System.out.println(
+                "DTO charges = " + harvesterRequestDto.getChargesPerAcre()
+        );
+
+        HarvesterService entity =
+                harvesterMapper.toEntity(harvesterRequestDto);
+
+        HarvesterService newEntity = harvesterMapper.toEntity(harvesterRequestDto);
+        newEntity.setServiceProviderId(provider);
+        newEntity.setCategoryId(category);
+        HarvesterService saveDEntity = harvesterRepository.save(newEntity);
+
+        return harvesterMapper.toResponse(saveDEntity);
     }
 }

@@ -1,7 +1,9 @@
 package com.Haritpane.springBoot_haritpane_backend.controller.serviceProviderctrl;
 
 
+import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.requestDto.HarvesterRequestDto;
 import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.requestDto.LandManagementRequestDto;
+import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.responseDto.HarvesterResponseDto;
 import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.responseDto.LandManagementResponseDto;
 import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.responseDto.ServiceProviderLoginResponseDto;
 import com.Haritpane.springBoot_haritpane_backend.entity.providerEntity.ServiceCategoryEntity;
@@ -61,7 +63,28 @@ public class ProviderServices {
                 HttpStatus.CREATED,
                 newLand
         );
+    }
 
+    @PostMapping("/addHarvester")
+    public  ResponseEntity<ApiResponse<HarvesterResponseDto>> addHarvester(
+            @RequestBody HarvesterRequestDto harvesterRequestDto,
+            Authentication authentication
+            ){
+        HarvesterResponseDto newHar = cateogoriesAndAllServices.addHarvesterService(
+                harvesterRequestDto,
+                authentication);
+        if (newHar == null) {
+            return ResponseHandler.generateResponse(
+                    "Something went wrong",
+                    HttpStatus.CONFLICT,
+                    null
+            );
+        }
 
+        return ResponseHandler.generateResponse(
+                "Land Service added successfully",
+                HttpStatus.CREATED,
+                newHar
+        );
     }
 }
