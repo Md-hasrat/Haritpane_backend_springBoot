@@ -42,6 +42,7 @@ public class HarvesterService {
     private String harvesterImg;
     private String harvesterModelName;
     private String harvesterManufacturer;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "availability_id")
     private ServiceAvailability serviceAvailability;
