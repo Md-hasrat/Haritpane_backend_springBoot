@@ -6,9 +6,12 @@ import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.request
 import com.Haritpane.springBoot_haritpane_backend.entity.providerEntity.serviceName.Location;
 import com.Haritpane.springBoot_haritpane_backend.enums.EquipmentType;
 import com.Haritpane.springBoot_haritpane_backend.enums.PriceBasis;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
+
+@Data
 public class ExcavationServiceResponseDto {
 
     private Long id;
