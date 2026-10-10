@@ -1,9 +1,7 @@
 package com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.responseDto;
 
-import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.AvailabilityDto;
 import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.requestDto.LocationDto;
 import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.requestDto.ServiceAvailabilityDto;
-import com.Haritpane.springBoot_haritpane_backend.entity.providerEntity.serviceName.Location;
 import com.Haritpane.springBoot_haritpane_backend.enums.EquipmentType;
 import com.Haritpane.springBoot_haritpane_backend.enums.PriceBasis;
 import lombok.Data;
