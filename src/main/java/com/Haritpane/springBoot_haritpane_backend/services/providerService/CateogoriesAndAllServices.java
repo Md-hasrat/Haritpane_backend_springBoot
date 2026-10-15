@@ -1,7 +1,11 @@
 package com.Haritpane.springBoot_haritpane_backend.services.providerService;
 
+import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.requestDto.ElectroStaticSprayingRequestDto;
+import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.requestDto.ExcavationServiceRequestDto;
 import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.requestDto.HarvesterRequestDto;
 import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.requestDto.LandManagementRequestDto;
+import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.responseDto.ElectroStaticSprayingResponseDto;
+import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.responseDto.ExcavationServiceResponseDto;
 import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.responseDto.HarvesterResponseDto;
 import com.Haritpane.springBoot_haritpane_backend.dto.serviceProviderDto.responseDto.LandManagementResponseDto;
 import com.Haritpane.springBoot_haritpane_backend.entity.providerEntity.ServiceCategoryEntity;
@@ -19,6 +23,15 @@ public interface CateogoriesAndAllServices {
 
     HarvesterResponseDto addHarvesterService(
             HarvesterRequestDto harvesterRequestDto,
+            Authentication authentication
+    );
+    ExcavationServiceResponseDto addExcavationService(
+            ExcavationServiceRequestDto excavationServiceRequestDto,
+            Authentication authentication
+    );
+
+    ElectroStaticSprayingResponseDto addElectroStaticSpraying(
+            ElectroStaticSprayingRequestDto electroStaticSprayingRequestDto,
             Authentication authentication
     );
 }
